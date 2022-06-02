@@ -1,0 +1,23 @@
+.footer-nav ul li {
+    text-decoration: none;
+    list-style: none;
+}
+
+.footer-nav ul li a {
+    text-decoration: none;
+    display: block;
+    color: #fff;
+    padding: 10px;
+}
+
+.footer-nav ul {
+    padding-top: 26px;
+}
+
+.contact {
+    padding-top: 33px;
+}
+
+.contact-icon {
+    margin-right: 8px;
+}
