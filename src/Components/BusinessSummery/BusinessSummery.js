@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { faEarth } from '@fortawesome/free-solid-svg-icons';
 import { faPeopleCarryBox } from '@fortawesome/free-solid-svg-icons';
 import { faFaceLaugh } from '@fortawesome/free-solid-svg-icons';
@@ -8,15 +8,7 @@ import VisibilitySensor from 'react-visibility-sensor';
 
 
 const BusinessSummery = () => {
-    const state = {
-        didViewCountUp: false
-    };
-
-    const onVisibilityChange = isVisible => {
-        if (isVisible) {
-            this.setState({ didViewCountUp: true });
-        }
-    }
+    const [viewPortEntered, setViewPortEntered] = useState(false);
     return (
         <div className='container'>
             <h1 className='fw-bold text-center my-5' style={{ color: '#161880', fontSize: '50px' }}>We Belive in Numbers</h1>
@@ -26,8 +18,14 @@ const BusinessSummery = () => {
                     <div className="country">
                         <FontAwesomeIcon icon={faEarth} style={{ fontSize: '150px', margin: '30px 30px', color: '#FAC214' }}></FontAwesomeIcon>
                         <p style={{ fontSize: '50px', fontWeight: 'bold', color: '#F77F22' }}>
-                            <VisibilitySensor onChange={this.onVisibilityChange}>
-                                <CountUp  end={this.state.didViewCountUp ? 27 : 0} duration={1}></CountUp>
+                            <VisibilitySensor active={!viewPortEntered}
+                                onChange={isVisible => {
+                                    if (isVisible) {
+                                        setViewPortEntered(true);
+                                    }
+                                }}
+                                delayedCall>
+                                <CountUp end={27}  duration={1}></CountUp>
                             </VisibilitySensor>
                             <span>+</span>  <br /> Country</p>
                     </div>
