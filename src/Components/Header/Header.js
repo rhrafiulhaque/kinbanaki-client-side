@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Button, Container, Dropdown, Form, FormControl, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import './Header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -10,24 +10,21 @@ import { faBox } from '@fortawesome/free-solid-svg-icons'
 import { faLongArrowAltUp } from '@fortawesome/free-solid-svg-icons'
 import { faUserAlt } from '@fortawesome/free-solid-svg-icons'
 import { useAuthState } from 'react-firebase-hooks/auth';
-import auth from '../../firbase.init';
+import auth from '../../firebase.init';
 import { Link } from 'react-router-dom';
+import { signOut } from 'firebase/auth';
+import { toast } from 'react-toastify';
 
 const Header = () => {
 
+    const logout = () => {
+        signOut(auth);
+        toast.success('Sign Out Successfully');
+    };
     const [user] = useAuthState(auth);
-    const openDropdown = () => {
-        if(user){
-            const toggleMenu = document.querySelector('.menu');
-            toggleMenu.classList.toggle('active');
-        }
-        else{
-            console.log('inside');
-        }
-            
-        
 
-    }
+    console.log(user?.displayName, user?.photoURL);
+
     return (
         <div style={{ background: "#161880" }} >
             <Navbar className='mx-3' expand="lg">
@@ -51,27 +48,23 @@ const Header = () => {
                             style={{ maxHeight: '100px' }}
                             navbarScroll
                         >
-                            <div >
-                                <Nav.Link href="#action1"><FontAwesomeIcon icon={faCartPlus} style={{ color: '#F6B924', fontSize: '30px', paddingRight: '20px' }} /></Nav.Link>
+                            <div className='menubar' >
+                               <ul className='d-flex'>
+                                   <li className='pt-2 ' style={{listStyle:'none'}}><Link style={{textDecoration:'none', color:'#fff', fontSize:'16px', padding:'10px'}} to={'/'}>Home</Link></li>
+                                   <li className='pt-2 ' style={{listStyle:'none'}}><Link style={{textDecoration:'none', color:'#fff', fontSize:'16px', padding:'10px'}} to={'/aboutus'}>About Us</Link></li>
+                                   <li className='pt-2 ' style={{listStyle:'none'}}><Link style={{textDecoration:'none', color:'#fff', fontSize:'16px', padding:'10px'}} to={'contact'}>Contact</Link></li>
+                                   {
+                                       user&& <>
+                                       
+                                       <li className='pt-2 ' style={{listStyle:'none'}}><Link style={{textDecoration:'none', color:'#fff', fontSize:'16px', padding:'10px'}} to={'dashboard'}>Dashboard</Link></li>
+                                       <li className='pt-2 ' style={{listStyle:'none'}}><Link onClick={logout} style={{textDecoration:'none', color:'#fff', fontSize:'16px', padding:'10px'}} to={'/login'}>Logout</Link></li>
+                                       </>
+                                   }
+                                  {
+                                      !user &&  <li className='pt-2 ' style={{listStyle:'none'}}><Link style={{textDecoration:'none', color:'#fff', fontSize:'16px', padding:'10px'}} to={'/login'}>Login</Link></li>
+                                  }
+                               </ul>
                             </div>
-
-
-                            {/* DropDown User Start  */}
-                            <div className="action">
-                                <div className="profile">
-                                    {user?<FontAwesomeIcon onClick={openDropdown} className='user-icon pt-2' icon={faUser} style={{ color: '#F6B924', fontSize: '30px', paddingRight: '20px' }} />: <Link to={'/login'}><FontAwesomeIcon  className='user-icon pt-2' icon={faUser} style={{ color: '#F6B924', fontSize: '30px', paddingRight: '20px' }} /></Link> }
-                                </div>
-                                <div className="menu">
-                                    <h1 className='fs-5 text-center pt-2'>Hello RH</h1>
-                                    <ul>
-                                        <li><a href=""><FontAwesomeIcon className='ftp-icon' icon={faUserAlt} /> My Profile</a></li>
-                                        <li><a href=""><FontAwesomeIcon className='ftp-icon' icon={faDashboard} />Dashboard</a></li>
-                                        <li><a href=""><FontAwesomeIcon className='ftp-icon' icon={faBox} />My Orders</a></li>
-                                        <li><a href=""><FontAwesomeIcon className='ftp-icon' icon={faLongArrowAltUp} />Logout</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            {/* DropDown User End  */}
                         </Nav>
                     </Navbar.Collapse>
                 </Container>

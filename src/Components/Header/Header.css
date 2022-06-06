@@ -58,6 +58,7 @@
     display: inline-block;
     font-weight: 500;
     transition: 0.5s;
+    color: #0B5ED7;
 }
 .menu ul li{
     list-style: none;
@@ -73,3 +74,21 @@
     color: #ff5d94;
 
 }
+.logout-btn{
+    text-decoration: none;
+    display: inline-block;
+    font-weight: 500;
+    transition: 0.5s;
+    color: #0B5ED7;
+    border: none;
+    background: none;
+}
+.logout-btn:hover{
+    color: #ff5d94;
+}
+.avatar {
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
